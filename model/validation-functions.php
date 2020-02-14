@@ -11,11 +11,13 @@ function validColor($color) {
     return in_array($color, $f3->get('colors'));
 }
 
-function validString($animal) {
-    if (!empty($animal) && ctype_alpha($animal))
-    {
-        return true;
-    }
-    return false;
+/**
+ * validate a string
+ * @param $animal string
+ * @return boolean
+ */
+function validAnimal($animal) {
+    return (!empty(trim($animal)) && ctype_alpha($animal));
+
 }
 

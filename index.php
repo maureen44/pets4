@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 // Turn on error reporting -- this is critical!
 ini_set('display_errors',1);
 error_reporting(E_ALL);
@@ -8,6 +8,8 @@ error_reporting(E_ALL);
 require("vendor/autoload.php");
 require_once ('model/validation-functions.php');
 
+//start session
+session_start();
 //Instantiate F3
 $f3 = Base::Instance();
 
@@ -21,6 +23,11 @@ $f3->set('colors', array('pink', 'green', 'blue'));
 $f3->route("GET /", function (){
     echo "<h1>My Pets</h1>";
     echo "<a href='order'>Order a Pet</a>";
+
+
+//    $_SESSION['pet1'] = $pet1;
+//    $_SESSION['dog1'] = $dog1;
+//    $_SESSION['cat1'] = $cat1;
 });
 
 $f3->route("GET /@animal", function($f3, $params) {
@@ -50,8 +57,19 @@ $f3->route("GET|POST /order", function($f3) {
     $_SESSION = array();
     if(isset($_POST['animal'])){
         $animal = $_POST['animal'];
-        if(validString($animal)){
+        if(validAnimal($animal))
+        {
+            if (strtolower($animal) == "dog" ){
+                $pet1 = new Dog($animal);
+            }
+            elseif (strtolower($animal) == "cat"){
+                $pet1 = new Cat($animal);
+            }
+            else{
+                $pet1 = new Pet("$animal");
+            }
             $_SESSION['animal']= $animal;
+            $_SESSION['pet1']= $pet1;
             $f3->reroute('/order2');
         }else{
             $f3->set("errors['animal']", "Please enter an animal.");
@@ -69,8 +87,12 @@ $f3->route("GET|POST /order2", function($f3) {
     //var_dump($_SESSION);*/
     if (isset($_POST['color'])) {
         $color = $_POST['color'];
-        if (validColor($color)) {
-            $_SESSION['color'] = $color;
+        if (validColor($color))
+        {
+            $_SESSION['pet1']->setColor("$color");
+            $_SESSION['color']=$color;
+            $name = $_POST['name'];
+            $_SESSION['pet1']->setName("$name");
             $f3->reroute('/results');
         }
         else {
@@ -84,7 +106,6 @@ $f3->route("GET|POST /order2", function($f3) {
 
 $f3->route("GET|POST /results", function() {
     //var_dump($_POST);
-
     $views = new Template();
     echo $views->render('views/results.html');
 });

@@ -7,11 +7,11 @@
 <body>
 <h1> Pets 3</h1>
 <form method="post" action="#" class="form-horizontal">
-    <label> Animal</label>
     <check if="{{ isset(@errors['animal']) }} ">
         <p>{{ @errors['animal'] }}</p>
     </check>
-    <input type="text" class="form-control" id="animal" name="animal" >
+    <label for="animal">Animal <input type="text" name="animal" id="animal">
+    </label>
     <button type="submit">Next>></button>
 </form>
 </body>
