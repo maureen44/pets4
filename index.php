@@ -54,22 +54,34 @@ $f3->route("GET /@animal", function($f3, $params) {
 });
 
 $f3->route("GET|POST /order", function($f3) {
+
     $_SESSION = array();
+    $pet1 = new Pet();
+    $dog1 = new Dog();
+    $cat1 = new Cat();
+    $bird1 = new Bird();
     if(isset($_POST['animal'])){
         $animal = $_POST['animal'];
         if(validAnimal($animal))
         {
             if (strtolower($animal) == "dog" ){
-                $pet1 = new Dog($animal);
+                $pet1 = new Dog($dog1);
             }
             elseif (strtolower($animal) == "cat"){
-                $pet1 = new Cat($animal);
+                $pet1 = new Cat($cat1);
+            }
+            elseif (strtolower($animal) == "bird"){
+                $pet1 = new Bird($bird1);
             }
             else{
-                $pet1 = new Pet("$animal");
+                $pet1 = new Pet($pet1);
             }
-            $_SESSION['animal']= $animal;
-            $_SESSION['pet1']= $pet1;
+            $_SESSION['animal'] = $animal;
+            $_SESSION['pet1'] = $pet1;
+            $_SESSION['dog1'] = $dog1;
+            $_SESSION['cat1'] = $cat1;
+            $_SESSION['bird'] = $bird1;
+
             $f3->reroute('/order2');
         }else{
             $f3->set("errors['animal']", "Please enter an animal.");

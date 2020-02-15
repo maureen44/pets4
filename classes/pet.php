@@ -3,7 +3,7 @@ class Pet
 {
     private $_name;
     private $_color;
-    //private $_type;
+    private $_type;
 
     //Default constructor
     /*function __construct()
@@ -13,11 +13,11 @@ class Pet
     }*/
 
     //Parameterized constructor
-    function __construct($name= "unknown", $color="?")
+    function __construct($_name= "unknown", $_color ="?", $_type = "pet")
     {
-        $this->_name = $name;
-        $this->_color = $color;
-       // $this->_type = $_type;
+        $this->_name = $_name;
+        $this->_color = $_color;
+        $this->_type = $_type;
     }
 
     function eat()
@@ -51,15 +51,15 @@ class Pet
         $this->_color = $color;
     }
 
-//    function getType()
-//    {
-//        return $this->_type;
-//    }
-//
-//    function setType ($type)
-//    {
-//        $this->_type = $type;
-//    }
+    function getType()
+    {
+        return $this->_type;
+    }
+
+    function setType ($type)
+    {
+        $this->_type = $type;
+    }
 //
 //    function breed()
 //    {
